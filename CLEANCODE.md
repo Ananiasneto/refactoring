@@ -3,6 +3,11 @@
 
 # arquivo: news-controller.ts
 - comparações diretamente no if,pode-se facilitar a leitura destacando a operação para uma variavel ;
+- validação do id pode ser uma função separada;
+
+# arquivo: news-repositories
+
+-Nome de funcões misturando idiomas sendo elas:getNoticias,getNoticiaById,createNoticia,updateNoticia,removeNoticia;
 
 # arquivo: news-service.ts
 - em getSpecificNews :a variavel news pode ser melhorada para newExist ,já que ela recebe a noticia caso exista;
@@ -18,3 +23,7 @@
 - em validate:magic number passado no if "500",pode-se dar semantica colocando em uma variavel ;
 
 - em validate:boolean passado direto no if "publicationDate.getTime() < currentDate.getTime()",pode-se facilitar a leitura destacando a operação para uma variavel ;
+
+
+# arquivo: server.ts
+- magic number 300;
