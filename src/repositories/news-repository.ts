@@ -17,6 +17,11 @@ export function getNewsById(id: number) {
     where: { id }
   })
 }
+export function getNewsByTitle(title: string) {
+  return prisma.news.findFirst({
+    where: { title }
+  })
+}
 
 export async function createNews(newsData: CreateNewsData) {
   return prisma.news.create({

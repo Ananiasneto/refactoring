@@ -16,7 +16,7 @@
 
 - em validate:Function tem mais de uma obrigação ,sendo elas:Checar se já existe noticia com titulo passado,checar tamanho do titulo e checar a se a data é valida;
 
-- em validate:newsWithTitle é o nome de uma variavel que guarda noticia com titulo existente ,o nome pode ser melhorado para newsTitleExist;
+- em validate:newsWithTitle é o nome de uma variavel que guarda noticia com titulo existente ,o nome pode ser melhorado para newsWithThisTitleExist;
 
 - em validate:boolean passado direto no if "newsData.text.length < 500",pode-se facilitar a leitura destacando a operação para uma variavel ;
 
@@ -24,6 +24,6 @@
 
 - em validate:boolean passado direto no if "publicationDate.getTime() < currentDate.getTime()",pode-se facilitar a leitura destacando a operação para uma variavel ;
 
-
+- em validade tem um acesso direto ao banco ,sem passar pelo repositories;
 # arquivo: server.ts
 - magic number 300;
