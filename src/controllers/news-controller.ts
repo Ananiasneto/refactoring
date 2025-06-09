@@ -14,8 +14,20 @@ function validateId(id){
 }
 
 export async function getNews(req: Request, res: Response) {
-  const news = await service.getNews();
+ const page = parseInt(req.query.page as string);
+  const limit = parseInt(req.query.limit as string);
+  const order = (req.query.order as string)?.toLowerCase();
+  const title = req.query.title as string;
+
+  const news = await service.getNews(
+    isNaN(page) ? undefined : page,
+    isNaN(limit) ? undefined : limit,
+    order,
+    title
+  );
+
   return res.send(news);
+    
 }
 
 export async function getSpecificNews(req: Request, res: Response) {

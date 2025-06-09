@@ -4,11 +4,28 @@ import { News } from "@prisma/client";
 export type CreateNewsData = Omit<News, "id" | "createAt">;
 export type AlterNewsData = CreateNewsData;
 
-export function getNews() {
+export function getNews(
+  page?: number,
+  limit?: number,
+  order?: "asc" | "desc",
+  title?: string
+) {
+  const take = limit;
+  const skip = (page - 1) * take;
+
+ const where = title ? {
+  title: {
+    contains: title,
+    mode: "insensitive" as const,
+  }
+  } : undefined;
+
+
   return prisma.news.findMany({
-    orderBy: {
-      publicationDate: "desc"
-    }
+    skip,
+    take,
+    orderBy: { publicationDate: order },
+    where,
   });
 }
 

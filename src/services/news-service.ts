@@ -2,9 +2,20 @@
 import * as newsRepository from "../repositories/news-repository";
 import { AlterNewsData, CreateNewsData } from "../repositories/news-repository";
 
-export async function getNews() {
-  return newsRepository.getNews();
+export async function getNews( page?: number,
+  limit?: number,
+  order?: string,
+  title?: string) {
+  const defaultPage = 1;
+  const defaultLimit = 10;
+
+  const validatedPage = page && page > 0 ? page : defaultPage;
+  const validatedLimit = limit && limit > 0 ? limit : defaultLimit;
+  const validatedOrder = order === "asc" ? "asc" : "desc";
+
+  return newsRepository.getNews(validatedPage, validatedLimit, validatedOrder, title);
 }
+
 
 export async function getSpecificNews(id: number) {
   const newsExist = await newsRepository.getNewsById(id);
