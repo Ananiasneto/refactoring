@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { CreateNewsData } from "../../src/repositories/news-repository";
 import prisma from "../../src/database";
+import { title } from "node:process";
 
 export function generateRandomNews(firstHand = false): CreateNewsData {
   return {
@@ -11,10 +12,24 @@ export function generateRandomNews(firstHand = false): CreateNewsData {
     title: faker.lorem.words(7)
   }
 }
+export function generateRandomNewsWhitTitleSpecific(firstHand = false,title): CreateNewsData {
+  return {
+    author: faker.person.fullName(),
+    firstHand,
+    text: faker.lorem.paragraphs(5),
+    publicationDate: faker.date.future(),
+    title
+  }
+}
 
 export async function persistNewRandomNews(firstHand = false) {
   return await prisma.news.create({
     data: generateRandomNews(firstHand)
+  });
+}
+export async function persistNewRandomNewsWithTitle(firstHand = false,title) {
+  return await prisma.news.create({
+    data: generateRandomNewsWhitTitleSpecific(firstHand,title)
   });
 }
 

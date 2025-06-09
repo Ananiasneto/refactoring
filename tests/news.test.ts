@@ -5,7 +5,7 @@ import prisma from "../src/database";
 import { faker } from '@faker-js/faker';
 import httpStatus from "http-status";
 
-import { generateRandomNews, persistNewRandomNews } from "./factories/news-factory";
+import { generateRandomNews, persistNewRandomNews, persistNewRandomNewsWithTitle } from "./factories/news-factory";
 
 const api = supertest(app);
 
@@ -57,6 +57,17 @@ describe("GET /news", () => {
     expect(news).toHaveLength(1);
     expect(result.statusCode).toBe(200);
   });
+it("should filter news by title", async () => {
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNewsWithTitle(false,"title 1")
+    await persistNewRandomNewsWithTitle(false,"title 2")
+
+    const result = await api.get("/news?title=title");
+    expect(result.body).toHaveLength(2);
+  });
+
 
   it("should get a specific id by id", async () => {
     const news = await persistNewRandomNews();
