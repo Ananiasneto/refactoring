@@ -5,6 +5,14 @@ import * as service from "./../services/news-service";
 
 import { AlterNewsData, CreateNewsData } from "../repositories/news-repository";
 
+function validateId(id){
+  if (isNaN(id) || id <= 0) {
+    return false;
+  }else{
+    return true;
+  }
+}
+
 export async function getNews(req: Request, res: Response) {
   const news = await service.getNews();
   return res.send(news);
@@ -12,7 +20,8 @@ export async function getNews(req: Request, res: Response) {
 
 export async function getSpecificNews(req: Request, res: Response) {
   const id = parseInt(req.params.id);
-  if (isNaN(id) || id <= 0) {
+  const idIsInvalid=validateId(id);
+  if (idIsInvalid) {
     return res.status(httpStatus.BAD_REQUEST).send("Id is not valid.");
   }
 
@@ -29,7 +38,8 @@ export async function createNews(req: Request, res: Response) {
 
 export async function alterNews(req: Request, res: Response) {
   const id = parseInt(req.params.id);
-  if (isNaN(id) || id <= 0) {
+  const idIsInvalid=validateId(id);
+  if (idIsInvalid) {
     return res.status(httpStatus.BAD_REQUEST).send("Id is not valid.");
   }
 
@@ -41,7 +51,8 @@ export async function alterNews(req: Request, res: Response) {
 
 export async function deleteNews(req: Request, res: Response) {
   const id = parseInt(req.params.id);
-  if (isNaN(id) || id <= 0) {
+  const idIsInvalid=validateId(id);
+  if (idIsInvalid) {
     return res.status(httpStatus.BAD_REQUEST).send("Id is not valid.");
   }
 
