@@ -33,6 +33,30 @@ describe("GET /news", () => {
       })
     ]))
   });
+  it("should return news on page 1 with limit 5", async () => {
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    const result = await api.get('/news?page=1&limit=5');
+    const news = result.body;
+    expect(news).toHaveLength(5);
+    expect(result.statusCode).toBe(200);
+  });
+  it("should return news on page 2 with limit 5", async () => {
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    await persistNewRandomNews();
+    const result = await api.get('/news?page=2&limit=5');
+    const news = result.body;
+    expect(news).toHaveLength(1);
+    expect(result.statusCode).toBe(200);
+  });
 
   it("should get a specific id by id", async () => {
     const news = await persistNewRandomNews();
