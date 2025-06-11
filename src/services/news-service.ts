@@ -1,6 +1,6 @@
 
 import * as newsRepository from "../repositories/news-repository";
-import { AlterNewsData, CreateNewsData } from "../repositories/news-repository";
+import { UpdateNewsData, CreateNewsData } from "../repositories/news-repository";
 
 export async function getNews( page?: number,
   limit?: number,
@@ -34,7 +34,7 @@ export async function createNews(newsData: CreateNewsData) {
   return newsRepository.createNews(newsData);
 }
 
-export async function alterNews(id: number, newsData: AlterNewsData) {
+export async function updateNews(id: number, newsData: UpdateNewsData) {
   const newsExist = await getSpecificNews(id);
   const checkTitleNotExist= newsExist.title !== newsData.title;
   await validate(newsData,checkTitleNotExist);
@@ -50,12 +50,12 @@ export async function deleteNews(id: number) {
 async function validate(newsData: CreateNewsData, checkTitleNotExist = true) {
 
   if (checkTitleNotExist) {
-    validateIfTitleNotExist(newsData.title);
+    await validateIfTitleNotExist(newsData.title);
   }
 
-  validateLengthText(newsData.text);
+   await validateLengthText(newsData.text);
   
-  validatePublicationDate(newsData.publicationDate)
+   await validatePublicationDate(newsData.publicationDate)
   
 
   async function validateIfTitleNotExist(title: string) {

@@ -2,7 +2,7 @@ import prisma from "./../database";
 import { News } from "@prisma/client";
 
 export type CreateNewsData = Omit<News, "id" | "createAt">;
-export type AlterNewsData = CreateNewsData;
+export type UpdateNewsData = CreateNewsData;
 
 export function getNews(
   page?: number,
@@ -46,7 +46,7 @@ export async function createNews(newsData: CreateNewsData) {
   });
 }
 
-export async function updateNew(id: number, news: AlterNewsData) {
+export async function updateNew(id: number, news: UpdateNewsData) {
   return prisma.news.update({
     where: { id },
     data: { ...news, publicationDate: new Date(news.publicationDate) }

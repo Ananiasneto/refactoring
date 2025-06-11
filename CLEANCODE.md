@@ -24,6 +24,8 @@
 
 - em validate:boolean passado direto no if "publicationDate.getTime() < currentDate.getTime()",pode-se facilitar a leitura destacando a operação para uma variavel ;
 
+- nome das funções alternews para updateNews;
+
 - em validade tem um acesso direto ao banco ,sem passar pelo repositories;
 # arquivo: server.ts
 - magic number 300;

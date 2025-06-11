@@ -5,7 +5,7 @@ import prisma from "../src/database";
 import { faker } from '@faker-js/faker';
 import httpStatus from "http-status";
 
-import { generateRandomNews, persistNewRandomNews, persistNewRandomNewsWithTitle } from "./factories/news-factory";
+import { generateRandomNews, persistNewRandomNews, persistNewRandomNewsWithPublicationDate, persistNewRandomNewsWithTitle } from "./factories/news-factory";
 
 const api = supertest(app);
 
@@ -57,7 +57,7 @@ describe("GET /news", () => {
     expect(news).toHaveLength(1);
     expect(result.statusCode).toBe(200);
   });
-it("should filter news by title", async () => {
+it("should return news filter news by title", async () => {
     await persistNewRandomNews();
     await persistNewRandomNews();
     await persistNewRandomNews();
@@ -67,7 +67,38 @@ it("should filter news by title", async () => {
     const result = await api.get("/news?title=title");
     expect(result.body).toHaveLength(2);
   });
+  it("should return news ordered by publicationDate ascending", async () => {
+  await persistNewRandomNewsWithPublicationDate(false,new Date('2023-01-01'));
+  await persistNewRandomNewsWithPublicationDate(false,new Date('2023-01-05'));
+  await persistNewRandomNewsWithPublicationDate(false,new Date('2023-01-10'));
 
+  const result = await api.get("/news?order=asc");
+  const news = result.body;
+
+  expect(result.statusCode).toBe(200);
+  expect(news).toHaveLength(3);
+  for (let i = 1; i < news.length; i++) {
+    const prevDate = new Date(news[i - 1].publicationDate);
+    const currDate = new Date(news[i].publicationDate);
+    expect(prevDate.getTime()).toBeLessThanOrEqual(currDate.getTime());
+  }
+});
+ it("should return news ordered by publicationDate descending", async () => {
+  await persistNewRandomNewsWithPublicationDate(false,new Date('2023-01-01'));
+  await persistNewRandomNewsWithPublicationDate(false,new Date('2023-01-05'));
+  await persistNewRandomNewsWithPublicationDate(false,new Date('2023-01-10'));
+
+  const result = await api.get("/news?order=desc");
+  const news = result.body;
+
+  expect(result.statusCode).toBe(200);
+  expect(news).toHaveLength(3);
+  for (let i = 1; i < news.length; i++) {
+    const prevDate = new Date(news[i - 1].publicationDate);
+    const currDate = new Date(news[i].publicationDate);
+    expect(prevDate.getTime()).toBeGreaterThanOrEqual(currDate.getTime());
+  }
+});
 
   it("should get a specific id by id", async () => {
     const news = await persistNewRandomNews();

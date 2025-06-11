@@ -25,7 +25,7 @@ export default function errorHandlingMiddleware(
   }
   const typeErrorExist=hashMappingErrors[name];
    if (typeErrorExist) {
-    return hashMappingErrors[name]();
+    return typeErrorExist();
   }else{
     return res.status(httpStatus.INTERNAL_SERVER_ERROR);
   }

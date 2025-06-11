@@ -41,3 +41,19 @@ export async function persistNewRandomNewsInThePast(firstHand = false) {
     data: eventData
   });
 }
+export function generateRandomNewsWithPublicationDate(firstHand = false, publicationDate: Date): CreateNewsData {
+  return {
+    author: faker.person.fullName(),
+    firstHand,
+    text: faker.lorem.paragraphs(5),
+    publicationDate,
+    title: faker.lorem.words(7)
+  };
+}
+
+export async function persistNewRandomNewsWithPublicationDate(firstHand = false, publicationDate: Date) {
+  const newsData = generateRandomNewsWithPublicationDate(firstHand, publicationDate);
+  return await prisma.news.create({
+    data: newsData
+  });
+}
